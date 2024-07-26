@@ -22,8 +22,7 @@ public class SpawnManager : MonoBehaviour
             GameObject boid = Instantiate(boidsPrefab, position, Quaternion.Euler(Vector3.forward * direction) * boidsPrefab.transform.localRotation); 
             boid.transform.SetParent(transform);
             boids.boidMovements.Add(boid.GetComponent<BoidMovement>()); 
-            //jdshglsda
-            transform.position = position;
+         
         }
     }
 }
