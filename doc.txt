@@ -10,3 +10,9 @@ Mỗi cá thể trong đàn sẽ tuân theo 3 nguyên tắc đơn giản:
 
 
 3. Cohesion (gắn kết/ tập hợp): cá thể sẽ luôn hướng vào trung tâm của đàn trong phạm vi nó nhìn thấy
+
+
+Các hàm sử dung trong unity:
+1. Vector2.Lerp(Vector2 a, Vector2 b, float t) trong đó trong đó a b là vecto điểm đầu tiên và kết thúc, t là tỉ lệ hoặc thời gian chuyển động giữa a và b
+
+Ứng dụng: tạo chuyển động mượt mà, hiệu ứng chuyển đổi, thay đổi tôc độ
