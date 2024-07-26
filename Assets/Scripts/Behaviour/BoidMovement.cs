@@ -12,7 +12,6 @@ public class BoidMovement : MonoBehaviour
     public float forwardSpeed;
     public float turnSpeed;
 
-    private float ratio = 2f;
     [SerializeField] private ListBoidVariable boids;
     [SerializeField] private float rateOfSeparation;
     [SerializeField] private float rateOfAligment;
@@ -69,13 +68,6 @@ public class BoidMovement : MonoBehaviour
         return listBoid;
     }
 
-    private List<BoidMovement> BoidsAvoid()
-    {
-        var listBoid = boids.boidMovements.FindAll(boid => boid != this
-            && (boid.transform.position - transform.position).magnitude <= ratio);
-        return listBoid;
-    }
-
     private bool InVisionCone(Vector2 position)
     {
         Vector2 directionToPosition = position - (Vector2)transform.position;
@@ -89,9 +81,6 @@ public class BoidMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, ratio);
 
         var boidsRange = BoidsInRange();
         foreach (var boid in boidsRange)
@@ -107,13 +96,11 @@ public class BoidMovement : MonoBehaviour
     private Vector2 Separation(List<BoidMovement> boidMovements)
     {
         Vector2 direction = Vector2.zero;
-        var boidsAvoid = BoidsAvoid();
-        foreach (var boid in boidsAvoid)
+        foreach (var boid in boidMovements)
         {
             // tinh ti le khoang cach tu boid hien
             // tai den boid trong list so voi ban kinh quy dinh trong [0, 1]
-            //float ratio = Mathf.Clamp01((boid.transform.position - transform.position).magnitude / radius);
-            
+            float ratio = Mathf.Clamp01((boid.transform.position - transform.position).magnitude / radius);
             direction -= ratio * (Vector2)(boid.transform.position - transform.position);
         }
 
