@@ -12,6 +12,7 @@ public class BoidMovement : MonoBehaviour
     public float forwardSpeed;
     public float turnSpeed;
 
+    private float ratio = 2f;
     [SerializeField] private ListBoidVariable boids;
     [SerializeField] private float rateOfSeparation;
     [SerializeField] private float rateOfAligment;
@@ -29,7 +30,8 @@ public class BoidMovement : MonoBehaviour
     private Vector2 CalculateVelocity()
     {
         var boidInRange = BoidsInRange();
-        Vector2 velocity = ((Vector2)transform.forward + rateOfSeparation * Separation(boidInRange)
+        var boidToAvoid = ProtectedArea();
+        Vector2 velocity = ((Vector2)transform.forward + rateOfSeparation * Separation(boidToAvoid)
                                                        + rateOfAligment * Aligment(boidInRange) 
                                                        + rateOfCohesion * Cohesion(boidInRange)).normalized * forwardSpeed;
         return velocity;
@@ -50,7 +52,6 @@ public class BoidMovement : MonoBehaviour
             direction.y = - direction.y;
         }
 
-
         Velocity = direction * Velocity.magnitude;
     }
 
@@ -65,6 +66,13 @@ public class BoidMovement : MonoBehaviour
         var listBoid = boids.boidMovements.FindAll(boid => boid != this
             && (boid.transform.position - transform.position).magnitude <= radius
             && InVisionCone(boid.transform.position));
+        return listBoid;
+    }
+
+    private List<BoidMovement> ProtectedArea()
+    {
+        var listBoid = boids.boidMovements.FindAll(boid => boid != this
+            && (boid.transform.position - transform.position).magnitude <= ratio);
         return listBoid;
     }
 
@@ -100,7 +108,7 @@ public class BoidMovement : MonoBehaviour
         {
             // tinh ti le khoang cach tu boid hien
             // tai den boid trong list so voi ban kinh quy dinh trong [0, 1]
-            float ratio = Mathf.Clamp01((boid.transform.position - transform.position).magnitude / radius);
+            //float ratio = Mathf.Clamp01((boid.transform.position - transform.position).magnitude / radius);
             direction -= ratio * (Vector2)(boid.transform.position - transform.position);
         }
 
