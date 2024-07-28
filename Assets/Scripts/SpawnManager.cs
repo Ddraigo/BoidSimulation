@@ -17,12 +17,12 @@ public class SpawnManager : MonoBehaviour
         {
             float direction = Random.Range(0f, 360f); // huong ngau nhien
 
-            Vector3 position = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f));
+            Vector3 position = new Vector3(Random.Range(-8f, 8f), Random.Range(-4f, 4f));
             // Sinh ra moi boid co vi tri va huong ngau nhien
-            GameObject boid = Instantiate(boidsPrefab, position, Quaternion.Euler(Vector3.forward * direction) * boidsPrefab.transform.localRotation); 
+            GameObject boid = Instantiate(boidsPrefab, position, Quaternion.Euler( Vector3.forward * direction) * boidsPrefab.transform.localRotation); 
             boid.transform.SetParent(transform);
             boids.boidMovements.Add(boid.GetComponent<BoidMovement>()); 
-            //jdshglsda
+
             transform.position = position;
         }
     }

@@ -72,7 +72,8 @@ public class BoidMovement : MonoBehaviour
     private List<BoidMovement> ProtectedArea()
     {
         var listBoid = boids.boidMovements.FindAll(boid => boid != this
-            && (boid.transform.position - transform.position).magnitude <= ratio);
+            && (boid.transform.position - transform.position).magnitude <= ratio
+            && InVisionCone(boid.transform.position));
         return listBoid;
     }
 
@@ -89,6 +90,8 @@ public class BoidMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, ratio);
 
         var boidsRange = BoidsInRange();
         foreach (var boid in boidsRange)

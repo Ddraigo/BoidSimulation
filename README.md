@@ -24,17 +24,44 @@ SCRIPTABLE OBJECT:
 
 
 
-CÁC HÀM CÓ SẴN TRONG UNITY ĐƯỢC SỬ DỤNG:
-1. Trong BoidMovement:
-    + Vector2.Lerp(Vector2 a, Vector2 b, float t) trong đó trong đó a b là vecto điểm đầu tiên và kết thúc, t là tỉ lệ hoặc thời gian chuyển động giữa a và b
+CÁC HÀM / THUỘC TÍNH CÓ SẴN TRONG UNITY ĐƯỢC SỬ DỤNG:
 
-    Ứng dụng: tạo chuyển động mượt mà, hiệu ứng chuyển đổi, thay đổi tôc độ. Ở đây hàm được dùng cho mục đích cụ thể là điều hướng và vận tốc di chuyển cho cá một cách mượt mà tự nhiên.
+1. Instantiate(GameObject a, Vector position, Quaternion rotation): đây là một hàm giúp tạo ra các object trong runtime từ bản sao của một mẫu là GameObject / Prefab a với một vị trí và hướng xoay nào đó.
 
-    + Vector2.Dot(vector a, vector b): tính tích vô hướng 2 vector
+2. Vector2.Lerp(Vector2 a, Vector2 b, float t) trong đó trong đó a b là vecto điểm đầu tiên và kết thúc, t là tỉ lệ hoặc thời gian chuyển động giữa a và b. Hàm này giúp tạo chuyển động mượt mà, hiệu ứng chuyển đổi, thay đổi tôc độ. Ở đây hàm được dùng cho mục đích cụ thể là điều hướng và vận tốc di chuyển cho cá một cách mượt mà tự nhiên.
 
-    + Mathf.Cos(float f): trả về cos của một góc
+3. Quaternion.Slerp(Quaternion a, Quaternion b, float t): dùng để biễu diễn chuyển động xoay trong không gian 3D trở nên mượt mà hơn theo hình cung tròn thay vì là một chuyển động thẳng
 
+        Sự giống nhau giữa Lerp và Slerp:
+        + Đều là phép nội suy tạo ra chuỗi giá trị trung gian từ điểm đầu đến điểm cuối
+        + Giúp cho các chuyển động mượt mà hơn
+
+        Sự khác nhau:
+            Lerp: Tạo ra chuyển động theo đường thẳng mượt mà nhưng nếu áp dụng cho các chuyển động xoay sẽ gây giật, không tự nhiên
+            Slerp: có thể dùng tạo ra chuyển động quay một các mượt mà kể cả trong không gian 3D
+
+
+4. Vector2.Dot(vector a, vector b): tính tích vô hướng 2 vector
+
+5. Mathf.Cos(float f): trả về cos của một góc
+
+6. OnDrawGizmosSelected(): Hàm của Unity để vẽ các đường và hình dạng giúp trực quan hóa nhưng không hiển thị trong màn hình Game mà chỉ được gọi khi chọn đối tượng trong Scene view của Unity Editor, giúp kiểm tra và quan sát được cụ thể các phương hướng di chuyển của boid. Trong đó có:
+
+    + Gizmos.DrawWireSphere(Vector center, float radius): vẽ hình cầu tính từ vị trí của đối tượng với bán kính radius 
+    + Gizmos.DrawLine(Vector from, Vector to): vẽ môt đường thẳng từ vị trí from đến vị trí to được chỉ định. Như trong đây là từ vị trí của boid hiện tại đến các boid khác. 
+
+7. magnitude: trả về độ dài của vector
+
+8. Transform:
+    Đây là thuộc tính của các GameObject dùng để xác định vị trí, hướng và tỉ lệ của đối tượng thông qua các thuộc tính của nó là position, rotation và scale. Trong đó chúng ta thường làm việc nhiều với position và rotation cho phép truy xuất hay gán các vị trí / phương hướng cho đối tượng
     
+9. Screen.width / Screen.height:
+    Là thuộc tính trong class Screen có thể dùng để lấy kích thước của màn hình hiển thị hiện tại theo chiều dài (height) hay rộng (width) theo đơn vị pixel. 
+
+10. Camera.main.orthographicSize: xác định kích thước của chế độ chiếu hình trực giao theo trục y (chiều dọc) của camera khi đang trong chế độ orthographic. Kích thước này được tính từ trung tâm camera đến nữa biên trên hoặc nữa biên dưới, tức bằng 1/2 của chiều cao khung nhìn camera. Chế độ orthographic giúp mọi vật thể vẫn giữ nguyên kích thước của nó mà không bị ảnh hưởng bởi khoảng cách xa gần của camera.
+
+
+
 
 
 
