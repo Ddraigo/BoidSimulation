@@ -79,7 +79,7 @@ public class BoidMovement : MonoBehaviour
     private bool InVisionCone(Vector2 position)
     {
         Vector2 directionToPosition = position - (Vector2)transform.position;
-        float dotProduct = Vector2.Dot(transform.forward, position);
+        float dotProduct = Vector2.Dot(transform.forward, directionToPosition);
         float cosHalfVisonAngle = Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad);
         return dotProduct >= cosHalfVisonAngle;
     }
