@@ -203,9 +203,9 @@ MonoBehaviour:
   forwardSpeed: 8
   turnSpeed: 5
   boids: {fileID: 11400000, guid: b770a8c8b0d437d4c8d160e339e0d06c, type: 2}
-  rateOfSeparation: 1.5
-  rateOfAligment: 1
-  rateOfCohesion: 1.5
+  rateOfSeparation: 2
+  rateOfAligment: 1.2
+  rateOfCohesion: 1.3
   boundery: {fileID: 11400000, guid: 9359e938e0d549d49918fe7005e03f2c, type: 2}
   boidLayerMask:
     serializedVersion: 2

@@ -60,6 +60,23 @@ CÁC HÀM / THUỘC TÍNH CÓ SẴN TRONG UNITY ĐƯỢC SỬ DỤNG:
 
 10. Camera.main.orthographicSize: xác định kích thước của chế độ chiếu hình trực giao theo trục y (chiều dọc) của camera khi đang trong chế độ orthographic. Kích thước này được tính từ trung tâm camera đến nữa biên trên hoặc nữa biên dưới, tức bằng 1/2 của chiều cao khung nhìn camera. Chế độ orthographic giúp mọi vật thể vẫn giữ nguyên kích thước của nó mà không bị ảnh hưởng bởi khoảng cách xa gần của camera.
 
+11. OverlapSphere và SphereCastAll: thuộc class Physics và sử dụng để kiểm tra các đối tượng trong một hình cầu
+
+    Giống nhau: đêu có thể dùng để tạo một vùng hình cầu có khả năng tìm được các va chạm khi mà có object tiến vào trong phạm vi vùng đó
+
+    Khác: 
+    - OverlapSphere
+        + Tạo ra khối cầu tĩnh, không di chuyển, không có tia
+        + Có thể kiểm tra tất cả collider nào khi tiến vào phạm vi của nó mà không cần biết hướng hay di chuyển
+        + Thích hợp để kiểm tra các đối tượng trong vùng tĩnh như kiểm tra xem có các boid khác nằm trong vùng nhìn của boid không
+    
+    - SphereCastAll: tạo ra một hình cầu dọc theo một tia (ray) và kiểm tra tất cả các Collider mà hình cầu chạm vào trên đường di chuyển của tia.
+        + Có thể kiểm tra các đối tượng tiến vào phạm vi hình cầu dọc trên đường di chuyển của tia
+        + Phụ thuộc vào độ dài của tia và hướng di chuyển 
+        + Có thể tìm các va chạm tong khi di chuyển
+
+
+
 
 
 

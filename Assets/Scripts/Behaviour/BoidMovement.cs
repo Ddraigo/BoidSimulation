@@ -14,7 +14,7 @@ public class BoidMovement : MonoBehaviour
     public float turnSpeed;
 
     private float ratio = 2f;
-    [SerializeField] private ListBoidVariable boids;
+
     [SerializeField] private float rateOfSeparation;
     [SerializeField] private float rateOfAligment;
     [SerializeField] private float rateOfCohesion;
@@ -72,6 +72,7 @@ public class BoidMovement : MonoBehaviour
     }
 
     // list cac boid nanm trong pham vi anh huong
+
     //private List<BoidMovement> FindBoidsInRange()
     //{
     //    boidsInRange.Clear();
@@ -80,7 +81,7 @@ public class BoidMovement : MonoBehaviour
     //    foreach (var collider in colliders)
     //    {
     //        BoidMovement boid = collider.GetComponent<BoidMovement>();
-    //        if (boid != null && boid != this && InVisionCone(boid.transform.position))
+    //        if (boid != null && InVisionCone(boid.transform.position))
     //        {
     //            boidsInRange.Add(boid);
     //        }
@@ -89,15 +90,32 @@ public class BoidMovement : MonoBehaviour
     //    return boidsInRange;
     //}
 
+    //private List<BoidMovement> ProtectedArea()
+    //{
+    //    boidsToAvoid.Clear();
+
+    //    foreach (var boid in boidsInRange)
+    //    {
+    //        if (boid != null && InVisionCone(boid.transform.position) && (boid.transform.position - transform.position).magnitude <= ratio)
+    //        {
+    //            boidsToAvoid.Add(boid);
+    //        }
+    //    }
+
+    //    return boidsToAvoid;
+    //}
+
     private List<BoidMovement> FindBoidsInRange()
     {
-        boidsInRange.Clear();
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, boidLayerMask);
+        if (boidsInRange.Count > 0)
+            boidsInRange.Clear();
 
-        foreach (var collider in colliders)
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radius, transform.forward, radius, boidLayerMask);
+
+        foreach (RaycastHit hit in hits)
         {
-            BoidMovement boid = collider.GetComponent<BoidMovement>();
-            if (boid != null )
+            BoidMovement boid = hit.collider.GetComponent<BoidMovement>();
+            if (boid != null && InVisionCone(boid.transform.position))
             {
                 boidsInRange.Add(boid);
             }
@@ -106,75 +124,32 @@ public class BoidMovement : MonoBehaviour
         return boidsInRange;
     }
 
+
     private List<BoidMovement> ProtectedArea()
     {
-        boidsToAvoid.Clear();
+        if (boidsToAvoid.Count > 0)
+            boidsToAvoid.Clear();
 
-        foreach (var boid in boidsInRange)
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, ratio, transform.forward, ratio, boidLayerMask);
+
+        foreach (RaycastHit hit in hits)
         {
-            if (boid != null && (boid.transform.position - transform.position).magnitude <= ratio)
+            BoidMovement boid = hit.collider.GetComponent<BoidMovement>();
+            if (boid != null && InVisionCone(boid.transform.position))
             {
                 boidsToAvoid.Add(boid);
             }
         }
-
         return boidsToAvoid;
     }
 
-    //private List<BoidMovement> FindBoidsInRange()
-    //{
-    //    if(boidsInRange.Count > 0)
-    //        boidsInRange.Clear();
-    //    float angleStep = visionAngle / (15 - 1);
-
-    //    for (int i = 0; i < 15; i++)
-    //    {
-    //        float angle = -visionAngle / 2 + i * angleStep;
-    //        Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-
-    //        if (Physics.SphereCast(transform.position, radius, direction, out RaycastHit hit, radius, boidLayerMask))
-    //        {
-    //            BoidMovement boid = hit.collider.GetComponent<BoidMovement>();
-    //            if (boid != null && boid != this)
-    //            {
-    //                boidsInRange.Add(boid);
-    //            }
-    //        }
-    //    }
-    //    return boidsInRange;
-    //}
-
-
-    //private List<BoidMovement> ProtectedArea()
-    //{
-    //    if (boidsToAvoid.Count > 0)
-    //        boidsToAvoid.Clear();
-    //    float angleStep = visionAngle / (15 - 1);
-
-    //    for (int i = 0; i < 15; i++)
-    //    {
-    //        float angle = -visionAngle / 2 + i * angleStep;
-    //        Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-
-    //        if (Physics.SphereCast(transform.position, ratio, direction, out RaycastHit hit, ratio, boidLayerMask))
-    //        {
-    //            BoidMovement boid = hit.collider.GetComponent<BoidMovement>();
-    //            if (boid != null && boid != this)
-    //            {
-    //                boidsToAvoid.Add(boid);
-    //            }
-    //        }
-    //    }
-    //    return boidsToAvoid;
-    //}
-
-    //private bool InVisionCone(Vector2 position)
-    //{
-    //    Vector2 directionToPosition = position - (Vector2)transform.position;
-    //    float dotProduct = Vector2.Dot(transform.forward, directionToPosition);
-    //    float cosHalfVisonAngle = Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad);
-    //    return dotProduct >= cosHalfVisonAngle;
-    //}
+    private bool InVisionCone(Vector2 position)
+    {
+        Vector2 directionToPosition = position - (Vector2)transform.position;
+        float dotProduct = Vector2.Dot(transform.forward, directionToPosition);
+        float cosHalfVisonAngle = Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad);
+        return dotProduct >= cosHalfVisonAngle;
+    }
 
 
     private void OnDrawGizmosSelected()
@@ -183,14 +158,6 @@ public class BoidMovement : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ratio);
-
-        //float angleStep = visionAngle / (15 - 1);
-        //for (int i = 0; i < 15; i++)
-        //{
-        //    float angle = -visionAngle / 2 + i * angleStep;
-        //    Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-        //    Gizmos.DrawLine(transform.position, transform.position + direction * radius);
-        //}
 
         foreach (var boid in FindBoidsInRange())
         {
