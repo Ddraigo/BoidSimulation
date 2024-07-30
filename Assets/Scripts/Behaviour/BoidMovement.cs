@@ -8,6 +8,7 @@ public class BoidMovement : MonoBehaviour
 {
     
     public Vector3 Velocity { get; private set; }
+    [Range(0f, 360f)]
     public float visionAngle;
     public float radius;
     public float forwardSpeed;
@@ -15,8 +16,11 @@ public class BoidMovement : MonoBehaviour
 
     private float ratio = 2f;
 
+    [Range(0f, 10f)]
     [SerializeField] private float rateOfSeparation;
+    [Range(0f, 10f)]
     [SerializeField] private float rateOfAligment;
+    [Range(0f, 10f)]
     [SerializeField] private float rateOfCohesion;
     [SerializeField] private Boundery boundery;
     [SerializeField] private LayerMask boidLayerMask;
@@ -96,7 +100,7 @@ public class BoidMovement : MonoBehaviour
 
     //    foreach (var boid in boidsInRange)
     //    {
-    //        if (boid != null && InVisionCone(boid.transform.position) && (boid.transform.position - transform.position).magnitude <= ratio)
+    //        if (boid != null && (boid.transform.position - transform.position).magnitude <= ratio)
     //        {
     //            boidsToAvoid.Add(boid);
     //        }
@@ -154,10 +158,22 @@ public class BoidMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ratio);
+
+
+        Vector3 forward = transform.forward;
+        Vector3 right = Quaternion.Euler(0, visionAngle * 0.5f, 0) * forward;
+        Vector3 left = Quaternion.Euler(0, -visionAngle * 0.5f, 0) * forward;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + right * radius);
+        Gizmos.DrawLine(transform.position, transform.position + left * radius);
+
+        Gizmos.DrawLine(transform.position + right * radius, transform.position + left * radius);
 
         foreach (var boid in FindBoidsInRange())
         {

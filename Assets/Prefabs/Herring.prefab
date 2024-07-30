@@ -198,11 +198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86b9145e433be84d8ce0699e5050229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionAngle: 180
+  visionAngle: 100
   radius: 3
   forwardSpeed: 8
   turnSpeed: 5
-  boids: {fileID: 11400000, guid: b770a8c8b0d437d4c8d160e339e0d06c, type: 2}
   rateOfSeparation: 2
   rateOfAligment: 1.2
   rateOfCohesion: 1.3

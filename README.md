@@ -75,6 +75,13 @@ CÁC HÀM / THUỘC TÍNH CÓ SẴN TRONG UNITY ĐƯỢC SỬ DỤNG:
         + Phụ thuộc vào độ dài của tia và hướng di chuyển 
         + Có thể tìm các va chạm tong khi di chuyển
 
+    Hiệu suất:
+    - OverlapSphere chỉ đơn giản kiểm tra các collider nằm trong phạm vi hình cầu
+
+    - SphereCastAll vừa phải tính toán hướng di chuyển và vừa phải kiểm tra các collider tiến vào phạm vi nên cần tính toán nhiều => hiệu suất kém hơn
+
+    Bên cạnh đó, trong boid simulation này việc áp dụng OverlapSphere sẽ dễ dàng hơn vì vị trí trung tâm đã được gắn vào boid nên không cần quan tâm đến nó đứng yên, nên có thể dùng OverlapSphere để tăng hiệu năng
+
 
 
 
